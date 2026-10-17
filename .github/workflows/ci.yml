@@ -1,0 +1,22 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  selftest:
+    name: self-test and workflow lint
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Self-test of lib.sh, install.sh and install-python.sh
+        run: bash selftest.sh
+      - name: Lint the workflow with the pinned actionlint
+        run: bash install.sh "$RUNNER_TEMP/bin" tools.lock actionlint && "$RUNNER_TEMP/bin/actionlint"
