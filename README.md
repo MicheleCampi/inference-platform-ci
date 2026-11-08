@@ -1,6 +1,8 @@
 # inference-platform-ci
 
-Pinned tools and shared verification helpers for the repositories of one LLM inference platform: [gke-llm-inference-platform](https://github.com/MicheleCampi/gke-llm-inference-platform), [model-promotion-bridge](https://github.com/MicheleCampi/model-promotion-bridge) and [vllm-coldstart-operator](https://github.com/MicheleCampi/vllm-coldstart-operator). Each consumer pins a tag of this repository together with the commit that tag must resolve to, and checks both with `tag_is`: a moved tag fails its run.
+[![ci](https://github.com/MicheleCampi/inference-platform-ci/actions/workflows/ci.yml/badge.svg)](https://github.com/MicheleCampi/inference-platform-ci/actions/workflows/ci.yml)
+
+Pinned tools and shared verification helpers for the CI of six repositories: [aws-ecs-delivery-platform](https://github.com/MicheleCampi/aws-ecs-delivery-platform), [eks-llm-inference-platform](https://github.com/MicheleCampi/eks-llm-inference-platform), [gke-llm-inference-platform](https://github.com/MicheleCampi/gke-llm-inference-platform), [llm-inference-platform](https://github.com/MicheleCampi/llm-inference-platform), [model-promotion-bridge](https://github.com/MicheleCampi/model-promotion-bridge) and [vllm-coldstart-operator](https://github.com/MicheleCampi/vllm-coldstart-operator). Each consumer pins a tag of this repository together with the commit that tag must resolve to, and its run fails if the tag resolves anywhere else: gke checks with `tag_is` from `lib.sh`, the others with the same comparison in their install or validate script.
 
 | File | What it is |
 |---|---|
