@@ -55,3 +55,10 @@ Limit: cosign v3.1.4 itself was checked only against the SHA-256 in its own
 release (`cosign_checksums.txt`), downloaded over TLS from GitHub; that is
 where this chain of trust starts.
 
+## kustomize: checksum verified before pinning
+
+kustomize v5.8.1 (the version built into kubectl 1.36) builds the overlays a
+platform keeps over a vendored upstream manifest, so CI can scan exactly what
+is applied. The release publishes no signature: the SHA-256 in `tools.lock`
+was checked against the release's `checksums.txt` and against an independent
+download of `kustomize_v5.8.1_linux_amd64.tar.gz`.
