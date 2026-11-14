@@ -13,3 +13,4 @@ yq                    https://github.com/mikefarah/yq/releases/download/v4.54.1/
 openapi2jsonschema    https://raw.githubusercontent.com/yannh/kubeconform/02374e583d700721f57300fae78e11acd27ee539/scripts/openapi2jsonschema.py  d145babfbb765004030764e1b4e518bfb7a4bd7f111691a08fa57983b81881f3
 trivy                 https://github.com/aquasecurity/trivy/releases/download/v0.76.2/trivy_0.76.2_Linux-64bit.tar.gz          bc0fc726e017b8927a62b2d3531d7a84ee01769daf5c99ed866dced54089fdbf
 kustomize             https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv5.8.1/kustomize_v5.8.1_linux_amd64.tar.gz 029a7f0f4e1932c52a0476cf02a0fd855c0bb85694b82c338fc648dcb53a819d
+mimirtool             https://github.com/grafana/mimir/releases/download/mimir-3.2.5/mimirtool-linux-amd64 58f2c78e6a1bf633863aa6aaeb9e7ef18eefb1af3d2ed1e35d9c8dd244c5cad6

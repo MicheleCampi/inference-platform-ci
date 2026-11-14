@@ -62,3 +62,17 @@ platform keeps over a vendored upstream manifest, so CI can scan exactly what
 is applied. The release publishes no signature: the SHA-256 in `tools.lock`
 was checked against the release's `checksums.txt` and against an independent
 download of `kustomize_v5.8.1_linux_amd64.tar.gz`.
+
+## mimirtool: checksum verified before pinning
+
+mimirtool 3.2.5 (release `mimir-3.2.5`) loads the platform's Prometheus-format
+alert rules into Grafana Cloud as Grafana-managed rules, through Grafana's
+`/api/convert/` endpoint with `rules sync --concurrency 1`, as the Grafana
+documentation "Import data source-managed rules to Grafana-managed rules"
+describes. The SHA-256 in `tools.lock` was checked against the release's own
+`mimirtool-linux-amd64-sha-256` file before pinning.
+
+Only the `version` command calls the GitHub API to look for a newer release
+(`version.CheckLatest` in `cmd/mimirtool/main.go`); the self-test therefore
+checks the binary with `rules lint`, which runs offline, on a valid file and on
+an invalid one that must be rejected.
