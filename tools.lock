@@ -12,3 +12,4 @@ actionlint            https://github.com/rhysd/actionlint/releases/download/v1.7
 yq                    https://github.com/mikefarah/yq/releases/download/v4.54.1/yq_linux_amd64                                8e34fc298390875de416e6a4afcb8cabeceb25d9aa8506c1a2f9353cf702ea5f
 openapi2jsonschema    https://raw.githubusercontent.com/yannh/kubeconform/02374e583d700721f57300fae78e11acd27ee539/scripts/openapi2jsonschema.py  d145babfbb765004030764e1b4e518bfb7a4bd7f111691a08fa57983b81881f3
 trivy                 https://github.com/aquasecurity/trivy/releases/download/v0.76.2/trivy_0.76.2_Linux-64bit.tar.gz          bc0fc726e017b8927a62b2d3531d7a84ee01769daf5c99ed866dced54089fdbf
+kustomize             https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv5.8.1/kustomize_v5.8.1_linux_amd64.tar.gz 029a7f0f4e1932c52a0476cf02a0fd855c0bb85694b82c338fc648dcb53a819d
