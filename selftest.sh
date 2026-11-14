@@ -39,5 +39,9 @@ expect_reject install-bad-checksum "checksum mismatch for yq" bash install.sh "$
 expect_reject install-unknown-name "nope is not in tools.lock" bash install.sh "$W/none" tools.lock nope
 check install-python bash install-python.sh "$W/venv" requirements.lock
 check pyyaml-imports "$W/venv/bin/python" -c 'import yaml'
+check jsonschema-imports "$W/venv/bin/python" -c 'import jsonschema'
+# One altered hash must stop the whole install.
+awk '/--hash=sha256:/ && !done { sub(/sha256:[0-9a-f]+/, "sha256:" sprintf("%064d", 0)); done = 1 } 1' requirements.lock > "$W/bad-reqs.lock"
+expect_reject install-python-bad-hash "DO NOT MATCH THE HASHES" bash install-python.sh "$W/venv-bad" "$W/bad-reqs.lock"
 
 if [ "$fail" = 0 ]; then echo "ALL PASS"; else echo "FAILED"; exit 1; fi

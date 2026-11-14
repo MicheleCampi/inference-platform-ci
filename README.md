@@ -8,7 +8,8 @@ Pinned tools and shared verification helpers for the CI of six repositories: [aw
 |---|---|
 | `tools.lock` | name, URL and SHA-256 of every tool the platform's CI downloads |
 | `versions.env` | versions shared by more than one repository: the Kubernetes JSON schemas |
-| `requirements.lock` | PyYAML, every hash pinned |
+| `requirements.in` | direct Python dependencies: PyYAML, jsonschema |
+| `requirements.lock` | generated from `requirements.in` by pip-compile, every hash pinned |
 | `install.sh DEST LOCK [NAME...]` | downloads the named entries of a lock, verifies each SHA-256, installs them in DEST |
 | `install-python.sh DEST REQS` | a venv in DEST with REQS installed, every hash checked |
 | `lib.sh` | `pass`, `check`, `expect_reject`, `same`, `exit_code` and `tag_is`, sourced by the validate scripts |
@@ -19,3 +20,7 @@ Run the self-test with `bash selftest.sh` (bash, curl, git, python3 and network 
 ## Updating a pin
 
 Change the URL and the hash together, after checking the hash against the upstream release's own checksum file; tag a new version; then move each consumer to the new tag and commit, one pull request each.
+
+Python dependencies: edit `requirements.in`, then regenerate the lock with pip-tools 7.6.2 and Python 3.12 (the Python of the `ubuntu-24.04` runner):
+
+    pip-compile --generate-hashes --allow-unsafe --no-strip-extras --output-file requirements.lock requirements.in
