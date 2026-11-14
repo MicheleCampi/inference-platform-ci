@@ -34,6 +34,8 @@ expect_reject tag-is-missing "tag v9 not found" tag_is "$W/repo" v9 "$c"
 echo "== install.sh and install-python.sh"
 check install-yq bash install.sh "$W/bin" tools.lock yq
 check yq-runs "$W/bin/yq" --version
+check trivy-install bash install.sh "$W/trivy-bin" tools.lock trivy
+check trivy-version sh -c "\"$W/trivy-bin/trivy\" --version | grep -qx 'Version: 0.76.2'"
 awk '$1 == "yq" { $3 = "0" } 1' tools.lock > "$W/bad.lock"
 expect_reject install-bad-checksum "checksum mismatch for yq" bash install.sh "$W/bad" "$W/bad.lock" yq
 expect_reject install-unknown-name "nope is not in tools.lock" bash install.sh "$W/none" tools.lock nope

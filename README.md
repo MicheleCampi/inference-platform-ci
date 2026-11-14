@@ -24,3 +24,34 @@ Change the URL and the hash together, after checking the hash against the upstre
 Python dependencies: edit `requirements.in`, then regenerate the lock with pip-tools 7.6.2 and Python 3.12 (the Python of the `ubuntu-24.04` runner):
 
     pip-compile --generate-hashes --allow-unsafe --no-strip-extras --output-file requirements.lock requirements.in
+
+## trivy: signature verified before pinning
+
+The Trivy ecosystem was compromised in March 2026 (advisory "Trivy ecosystem
+supply chain temporarily compromised": malicious binary v0.69.4, hijacked tags
+of `trivy-action` and `setup-trivy`). So trivy is installed here as the release
+binary, never through those actions, and its pin was set only after checking
+the Sigstore signature, with the signer restricted to the trivy repository and
+the release tag (the advisory accepts any `aquasecurity/` workflow):
+
+    T=https://github.com/aquasecurity/trivy/releases/download/v0.76.2
+    for f in trivy_0.76.2_Linux-64bit.tar.gz trivy_0.76.2_checksums.txt; do
+      curl -fsSLO "$T/$f" && curl -fsSLO "$T/$f.sigstore.json"
+      cosign verify-blob \
+        --certificate-identity-regexp '^https://github\.com/aquasecurity/trivy/\.github/workflows/[^@]+@refs/tags/v0\.76\.2$' \
+        --certificate-oidc-issuer https://token.actions.githubusercontent.com \
+        --bundle "$f.sigstore.json" "$f"
+    done
+    grep ' trivy_0.76.2_Linux-64bit.tar.gz$' trivy_0.76.2_checksums.txt
+
+Result on 14/11/2026: both `Verified OK`; signer
+`https://github.com/aquasecurity/trivy/.github/workflows/reusable-release.yaml@refs/tags/v0.76.2`;
+signed 2026-11-05 12:47:20 UTC; SHA-256
+`bc0fc726e017b8927a62b2d3531d7a84ee01769daf5c99ed866dced54089fdbf`, equal to the
+signed checksum file and to `tools.lock`. v0.76.2 is outside every range in the
+trivy security advisories (the latest fixes are in v0.72.0).
+
+Limit: cosign v3.1.4 itself was checked only against the SHA-256 in its own
+release (`cosign_checksums.txt`), downloaded over TLS from GitHub; that is
+where this chain of trust starts.
+
